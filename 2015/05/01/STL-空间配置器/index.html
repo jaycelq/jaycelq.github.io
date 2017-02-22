@@ -6,7 +6,7 @@
   <title>STL 空间配置器 | Jayce&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta property="wb:webmaster" content="3208024a002facbe" />
-  <meta name="description" content="最近在读侯捷老师的STL源码剖析，感觉自己的C++实在太菜，我准备写一个系列的读书笔记，从我的角度时如何读懂这本书的，重点说说书里没有提到和我觉得比较重要的，一方面督促自己把书看完，另外，博客也好久没更新了 囧= =！
+  <meta name="description" content="最近在读侯捷老师的STL源码剖析，感觉自己的C++实在太菜，我准备写一个系列的读书笔记，从我的角度时如何读懂这本书的，重点说说书里没有提到和我觉得比较重要的，一方面督促自己把书看完，另外，博客也好久没更新了 囧= =、
 
 第一篇谈一下stl中的内存配置器。
 operator new和new operatoroperator new 是一个函数，它和malloc相似，用来分配对象的内存。函数签名为：">
@@ -14,7 +14,7 @@ operator new和new operatoroperator new 是一个函数，它和malloc相似，�
 <meta property="og:title" content="STL 空间配置器">
 <meta property="og:url" content="http://blog.liqiang.me/2015/05/01/STL-空间配置器/index.html">
 <meta property="og:site_name" content="Jayce's Blog">
-<meta property="og:description" content="最近在读侯捷老师的STL源码剖析，感觉自己的C++实在太菜，我准备写一个系列的读书笔记，从我的角度时如何读懂这本书的，重点说说书里没有提到和我觉得比较重要的，一方面督促自己把书看完，另外，博客也好久没更新了 囧= =！
+<meta property="og:description" content="最近在读侯捷老师的STL源码剖析，感觉自己的C++实在太菜，我准备写一个系列的读书笔记，从我的角度时如何读懂这本书的，重点说说书里没有提到和我觉得比较重要的，一方面督促自己把书看完，另外，博客也好久没更新了 囧= =、
 
 第一篇谈一下stl中的内存配置器。
 operator new和new operatoroperator new 是一个函数，它和malloc相似，用来分配对象的内存。函数签名为：">
@@ -22,10 +22,10 @@ operator new和new operatoroperator new 是一个函数，它和malloc相似，�
 <meta property="og:image" content="http://oazhdekrm.bkt.clouddn.com/images/2015_04_29/STL_Alloc.png">
 <meta property="og:image" content="http://oazhdekrm.bkt.clouddn.com/images/2015_04_29/two_allocator.png">
 <meta property="og:image" content="http://oazhdekrm.bkt.clouddn.com/images/2015_04_29/free_list.jpg">
-<meta property="og:updated_time" content="2016-07-27T21:29:11.000Z">
+<meta property="og:updated_time" content="2017-02-22T15:29:24.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="STL 空间配置器">
-<meta name="twitter:description" content="最近在读侯捷老师的STL源码剖析，感觉自己的C++实在太菜，我准备写一个系列的读书笔记，从我的角度时如何读懂这本书的，重点说说书里没有提到和我觉得比较重要的，一方面督促自己把书看完，另外，博客也好久没更新了 囧= =！
+<meta name="twitter:description" content="最近在读侯捷老师的STL源码剖析，感觉自己的C++实在太菜，我准备写一个系列的读书笔记，从我的角度时如何读懂这本书的，重点说说书里没有提到和我觉得比较重要的，一方面督促自己把书看完，另外，博客也好久没更新了 囧= =、
 
 第一篇谈一下stl中的内存配置器。
 operator new和new operatoroperator new 是一个函数，它和malloc相似，用来分配对象的内存。函数签名为：">
@@ -144,7 +144,7 @@ operator new和new operatoroperator new 是一个函数，它和malloc相似，�
 </a>
       </p>
       <div class="article-entry" itemprop="articleBody">
-        <p>最近在读侯捷老师的STL源码剖析，感觉自己的C++实在太菜，我准备写一个系列的读书笔记，从我的角度时如何读懂这本书的，重点说说书里没有提到和我觉得比较重要的，一方面督促自己把书看完，另外，博客也好久没更新了 囧= =！</p>
+        <p>最近在读侯捷老师的STL源码剖析，感觉自己的C++实在太菜，我准备写一个系列的读书笔记，从我的角度时如何读懂这本书的，重点说说书里没有提到和我觉得比较重要的，一方面督促自己把书看完，另外，博客也好久没更新了 囧= =、</p>
 <p><img src="http://oazhdekrm.bkt.clouddn.com/thumbnails/memory-block.jpg" alt=""></p>
 <p>第一篇谈一下stl中的内存配置器。</p>
 <h1 id="operator-new和new-operator"><a href="#operator-new和new-operator" class="headerlink" title="operator new和new operator"></a>operator new和new operator</h1><p>operator new 是一个函数，它和malloc相似，用来分配对象的内存。函数签名为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">void *operator new(size_t);</div></pre></td></tr></table></figure></p>
@@ -222,7 +222,7 @@ operator new和new operatoroperator new 是一个函数，它和malloc相似，�
 
       </div>
       <footer class="article-footer">
-        <div data-url="http://blog.liqiang.me/2015/05/01/STL-空间配置器/" data-title="STL 空间配置器 | Jayce&#39;s Blog" data-id="cizh42vpg00049zycdx2t1xc9" class="article-share-link">
+        <div data-url="http://blog.liqiang.me/2015/05/01/STL-空间配置器/" data-title="STL 空间配置器 | Jayce&#39;s Blog" data-id="cizh48d150000c8yc3u06t8br" class="article-share-link">
         </div>
         
         
