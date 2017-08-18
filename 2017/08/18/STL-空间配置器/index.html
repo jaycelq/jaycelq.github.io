@@ -94,22 +94,19 @@
 
 
 
-<meta name="description" content="内存管理一直都是C/C++程序中最神秘的地方，也是很多程序员喜欢C/C++的原因。因为可以自己分配和释放内存，语言给了开发者最大的自由管理系统资源。合理的内存管理能够提高程序的效率，避免内存碎片。但对程序员的要求也更高。C++标准库实现的内存配置器就是用来管理容器的内存，今天主要来看一下SGI的STL实现中是如何管理内存的。
-operator new和new operatoroperator ne">
+<meta name="description" content="内存管理一直都是C/C++程序中最神秘的地方，也是很多程序员喜欢C/C++的原因。因为可以自己分配和释放内存，语言给了开发者最大的自由管理系统资源。合理的内存管理能够提高程序的效率，避免内存碎片。但对程序员的要求也更高。C++标准库实现的内存配置器就是用来管理容器的内存，今天主要来看一下SGI的STL实现中是如何管理内存的。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="STL 空间配置器">
 <meta property="og:url" content="http://blog.liqiang.me/2017/08/18/STL-空间配置器/index.html">
 <meta property="og:site_name" content="CoolCoding">
-<meta property="og:description" content="内存管理一直都是C/C++程序中最神秘的地方，也是很多程序员喜欢C/C++的原因。因为可以自己分配和释放内存，语言给了开发者最大的自由管理系统资源。合理的内存管理能够提高程序的效率，避免内存碎片。但对程序员的要求也更高。C++标准库实现的内存配置器就是用来管理容器的内存，今天主要来看一下SGI的STL实现中是如何管理内存的。
-operator new和new operatoroperator ne">
+<meta property="og:description" content="内存管理一直都是C/C++程序中最神秘的地方，也是很多程序员喜欢C/C++的原因。因为可以自己分配和释放内存，语言给了开发者最大的自由管理系统资源。合理的内存管理能够提高程序的效率，避免内存碎片。但对程序员的要求也更高。C++标准库实现的内存配置器就是用来管理容器的内存，今天主要来看一下SGI的STL实现中是如何管理内存的。">
 <meta property="og:image" content="http://oazhdekrm.bkt.clouddn.com/images/2015_04_29/STL_Alloc.png">
 <meta property="og:image" content="http://oazhdekrm.bkt.clouddn.com/images/2015_04_29/two_allocator.png">
 <meta property="og:image" content="http://oazhdekrm.bkt.clouddn.com/images/2015_04_29/free_list.jpg">
-<meta property="og:updated_time" content="2017-08-18T17:22:39.000Z">
+<meta property="og:updated_time" content="2017-08-18T17:44:59.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="STL 空间配置器">
-<meta name="twitter:description" content="内存管理一直都是C/C++程序中最神秘的地方，也是很多程序员喜欢C/C++的原因。因为可以自己分配和释放内存，语言给了开发者最大的自由管理系统资源。合理的内存管理能够提高程序的效率，避免内存碎片。但对程序员的要求也更高。C++标准库实现的内存配置器就是用来管理容器的内存，今天主要来看一下SGI的STL实现中是如何管理内存的。
-operator new和new operatoroperator ne">
+<meta name="twitter:description" content="内存管理一直都是C/C++程序中最神秘的地方，也是很多程序员喜欢C/C++的原因。因为可以自己分配和释放内存，语言给了开发者最大的自由管理系统资源。合理的内存管理能够提高程序的效率，避免内存碎片。但对程序员的要求也更高。C++标准库实现的内存配置器就是用来管理容器的内存，今天主要来看一下SGI的STL实现中是如何管理内存的。">
 <meta name="twitter:image" content="http://oazhdekrm.bkt.clouddn.com/images/2015_04_29/STL_Alloc.png">
 
 
@@ -352,6 +349,7 @@ operator new和new operatoroperator ne">
 
       
         <p>内存管理一直都是C/C++程序中最神秘的地方，也是很多程序员喜欢C/C++的原因。因为可以自己分配和释放内存，语言给了开发者最大的自由管理系统资源。合理的内存管理能够提高程序的效率，避免内存碎片。但对程序员的要求也更高。C++标准库实现的内存配置器就是用来管理容器的内存，今天主要来看一下SGI的STL实现中是如何管理内存的。</p>
+<a id="more"></a>
 <h1 id="operator-new和new-operator"><a href="#operator-new和new-operator" class="headerlink" title="operator new和new operator"></a>operator new和new operator</h1><p>operator new 是一个函数，它和malloc相似，用来分配对象的内存。函数签名为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">void *operator new(size_t);</div></pre></td></tr></table></figure></p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">char</span> *x = <span class="keyword">static_cast</span>&lt;<span class="keyword">char</span> *&gt;(<span class="keyword">operator</span> <span class="keyword">new</span>(<span class="number">100</span>));</div></pre></td></tr></table></figure>
 <p>在实现自己的容器时可以直接调用operator new 函数。也可以重写全局的或者某个类的operator new函数。当然如果你重写了operator new函数，一般也要相应的operator delete函数。</p>
