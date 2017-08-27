@@ -97,7 +97,7 @@
 <meta name="description" content="内存管理一直都是C/C++程序中最神秘的地方，也是很多程序员喜欢C/C++的原因。因为可以自己分配和释放内存，语言给了开发者最大的自由管理系统资源。合理的内存管理能够提高程序的效率，避免内存碎片。但对程序员的要求也更高。C++标准库实现的内存配置器就是用来管理容器的内存，今天主要来看一下SGI的STL实现中是如何管理内存的。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="STL 空间配置器">
-<meta property="og:url" content="http://blog.liqiang.me/2017/08/18/STL-空间配置器/index.html">
+<meta property="og:url" content="http://blog.liqiang.me/2017/08/18/STL_Allocator/index.html">
 <meta property="og:site_name" content="CoolCoding">
 <meta property="og:description" content="内存管理一直都是C/C++程序中最神秘的地方，也是很多程序员喜欢C/C++的原因。因为可以自己分配和释放内存，语言给了开发者最大的自由管理系统资源。合理的内存管理能够提高程序的效率，避免内存碎片。但对程序员的要求也更高。C++标准库实现的内存配置器就是用来管理容器的内存，今天主要来看一下SGI的STL实现中是如何管理内存的。">
 <meta property="og:image" content="http://oazhdekrm.bkt.clouddn.com/images/2015_04_29/STL_Alloc.png">
@@ -136,7 +136,7 @@
 
 
 
-  <link rel="canonical" href="http://blog.liqiang.me/2017/08/18/STL-空间配置器/"/>
+  <link rel="canonical" href="http://blog.liqiang.me/2017/08/18/STL_Allocator/"/>
 
 
 
@@ -298,7 +298,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.liqiang.me/2017/08/18/STL-空间配置器/">
+    <link itemprop="mainEntityOfPage" href="http://blog.liqiang.me/2017/08/18/STL_Allocator/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jayce">
@@ -368,9 +368,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/08/18/STL-空间配置器/#comments" itemprop="discussionUrl">
+                <a href="/2017/08/18/STL_Allocator/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2017/08/18/STL-空间配置器/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2017/08/18/STL_Allocator/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -378,7 +378,7 @@
 
           
           
-             <span id="/2017/08/18/STL-空间配置器/" class="leancloud_visitors" data-flag-title="STL 空间配置器">
+             <span id="/2017/08/18/STL_Allocator/" class="leancloud_visitors" data-flag-title="STL 空间配置器">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -519,7 +519,7 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/08/27/boost内存池的实现/" rel="prev" title="boost内存池的实现">
+              <a href="/2017/08/27/boost_memory_pool/" rel="prev" title="boost内存池的实现">
                 boost内存池的实现 <i class="fa fa-chevron-right"></i>
               </a>
             
@@ -828,8 +828,8 @@
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://blog.liqiang.me/2017/08/18/STL-空间配置器/';
-          this.page.identifier = '2017/08/18/STL-空间配置器/';
+          this.page.url = 'http://blog.liqiang.me/2017/08/18/STL_Allocator/';
+          this.page.identifier = '2017/08/18/STL_Allocator/';
           this.page.title = 'STL 空间配置器';
         };
         var d = document, s = d.createElement('script');
