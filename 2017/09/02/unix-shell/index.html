@@ -94,19 +94,18 @@
 
 
 
-<meta name="description" content="很多网络库都会用到内存池来管理一些经常创建和释放的内存，比如TCP连接，网络包等。现在的项目用boost的内存池来管理对象，这篇文章主要分析了一下boost::pool是如何进行内存管理的。">
+<meta name="description" content="用过Linux系统的开发者应该都知道shell，它是类Unix操作系统的标配。操作系统的使用者通过shell调用系统或者自己实现的命令，完成任务。同时shell提供了很多好用的机制，输入输出重定向、管道等，使得用户可以通过不同命令的组合完成复杂的任务。本文主要介绍shell的基本原理和实现机制。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="boost内存池的实现">
-<meta property="og:url" content="http://blog.liqiang.me/2017/08/27/boost内存池的实现/index.html">
+<meta property="og:title" content="漫谈Unix Shell">
+<meta property="og:url" content="http://blog.liqiang.me/2017/09/02/unix-shell/index.html">
 <meta property="og:site_name" content="CoolCoding">
-<meta property="og:description" content="很多网络库都会用到内存池来管理一些经常创建和释放的内存，比如TCP连接，网络包等。现在的项目用boost的内存池来管理对象，这篇文章主要分析了一下boost::pool是如何进行内存管理的。">
-<meta property="og:image" content="http://oazhdekrm.bkt.clouddn.com/images/segregate_storage.png">
-<meta property="og:image" content="http://oazhdekrm.bkt.clouddn.com/images/pool_pod_ptr.png">
-<meta property="og:updated_time" content="2017-09-02T14:18:58.000Z">
+<meta property="og:description" content="用过Linux系统的开发者应该都知道shell，它是类Unix操作系统的标配。操作系统的使用者通过shell调用系统或者自己实现的命令，完成任务。同时shell提供了很多好用的机制，输入输出重定向、管道等，使得用户可以通过不同命令的组合完成复杂的任务。本文主要介绍shell的基本原理和实现机制。">
+<meta property="og:image" content="http://oazhdekrm.bkt.clouddn.com/images/fork_exec.png">
+<meta property="og:updated_time" content="2017-09-02T14:18:37.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="boost内存池的实现">
-<meta name="twitter:description" content="很多网络库都会用到内存池来管理一些经常创建和释放的内存，比如TCP连接，网络包等。现在的项目用boost的内存池来管理对象，这篇文章主要分析了一下boost::pool是如何进行内存管理的。">
-<meta name="twitter:image" content="http://oazhdekrm.bkt.clouddn.com/images/segregate_storage.png">
+<meta name="twitter:title" content="漫谈Unix Shell">
+<meta name="twitter:description" content="用过Linux系统的开发者应该都知道shell，它是类Unix操作系统的标配。操作系统的使用者通过shell调用系统或者自己实现的命令，完成任务。同时shell提供了很多好用的机制，输入输出重定向、管道等，使得用户可以通过不同命令的组合完成复杂的任务。本文主要介绍shell的基本原理和实现机制。">
+<meta name="twitter:image" content="http://oazhdekrm.bkt.clouddn.com/images/fork_exec.png">
 
 
 
@@ -135,13 +134,13 @@
 
 
 
-  <link rel="canonical" href="http://blog.liqiang.me/2017/08/27/boost内存池的实现/"/>
+  <link rel="canonical" href="http://blog.liqiang.me/2017/09/02/unix-shell/"/>
 
 
 
 
 
-  <title>boost内存池的实现 | CoolCoding</title>
+  <title>漫谈Unix Shell | CoolCoding</title>
   
 
 
@@ -297,7 +296,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.liqiang.me/2017/08/27/boost内存池的实现/">
+    <link itemprop="mainEntityOfPage" href="http://blog.liqiang.me/2017/09/02/unix-shell/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jayce">
@@ -314,7 +313,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">boost内存池的实现</h1>
+          <h1 class="post-title" itemprop="name headline">漫谈Unix Shell</h1>
         
 
         <div class="post-meta">
@@ -326,8 +325,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-27T16:21:01+08:00">
-                2017-08-27
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-02T22:15:37+08:00">
+                2017-09-02
               </time>
             
 
@@ -366,7 +365,7 @@
 
           
           
-             <span id="/2017/08/27/boost内存池的实现/" class="leancloud_visitors" data-flag-title="boost内存池的实现">
+             <span id="/2017/09/02/unix-shell/" class="leancloud_visitors" data-flag-title="漫谈Unix Shell">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -397,51 +396,30 @@
       
 
       
-        <p>很多网络库都会用到内存池来管理一些经常创建和释放的内存，比如TCP连接，网络包等。现在的项目用boost的内存池来管理对象，这篇文章主要分析了一下boost::pool是如何进行内存管理的。<br><a id="more"></a></p>
-<h3 id="simple-segregated-storage内存管理"><a href="#simple-segregated-storage内存管理" class="headerlink" title="simple_segregated_storage内存管理"></a>simple_segregated_storage内存管理</h3><p>boost内存池底层采用一种叫做simple_segregated_storage的类来管理内存，是boost::pool、boost::object_pool等内存池的基础。</p>
-<h4 id="基本思想"><a href="#基本思想" class="headerlink" title="基本思想"></a>基本思想</h4><p>simple_segregate_storage的设计思想与stl中内存allocator的思想基本一致，采用采用单链表来管理空闲内存，单链表的实现比较巧妙，是高效分配和释放内存的基础。</p>
-<p><img src="http://oazhdekrm.bkt.clouddn.com/images/segregate_storage.png" alt=""></p>
-<p>simple_segregated_storage中连续的内存叫做block，每个固定大小的内存块叫做chunk。上图中simple_segreate_storage管理5个内存块(chunk)，每个内存块16个字节。simple_segregate_storage有一个first成员指向free_chunk_list的首部，每个free_chunk的首部存储下一个free_chunk的地址。</p>
-<ul>
-<li>分配chunk：返回first,并将first指向first-&gt;next</li>
-<li>回收chunk: 将chunk-&gt;next指向first, first=chunk</li>
-</ul>
-<p>另外，simple_segrate_storage支持按顺序释放，比如先释放0x100后释放0x110，直接free时first会指向0x110,而ordered_free时first仍会指向0x100。按序释放可以实现按照链表顺序查找时，能够找到内存连续的free_chunk。</p>
-<p>非按序的分配和释放内存时间复杂度都是O(1)，但按序释放内存需要遍历free_list因此时间复杂度为O(N)</p>
-<h4 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">// 将block指向的大小为sz的内存，切分成partition_sz大小的内存，</div><div class="line">// 链入free_list，最后一个chunk指向end，返回第一个chunk的指针</div><div class="line">void * simple_segregated_storage&lt;SizeType&gt;::segregate(</div><div class="line">    void * const block,</div><div class="line">    const size_type sz,</div><div class="line">    const size_type partition_sz,</div><div class="line">    void * const end);</div><div class="line">    </div><div class="line">// 申请一块free chunk</div><div class="line">void * malloc BOOST_PREVENT_MACRO_SUBSTITUTION();</div><div class="line"></div><div class="line">// 释放chunk到free_list</div><div class="line">void free BOOST_PREVENT_MACRO_SUBSTITUTION(void * const chunk);</div><div class="line"></div><div class="line">// 分配n个partition_size大小的chunk</div><div class="line">// n个chunk内存连续</div><div class="line">void * malloc_n(size_type n, size_type partition_size);</div><div class="line"></div><div class="line">// 释放n个chunk，非按序释放</div><div class="line">void free_n(void * const chunks, const size_type n,</div><div class="line">    const size_type partition_size)；</div><div class="line">    </div><div class="line">// 按序释放n个chunk</div><div class="line">void ordered_free_n(void * const chunks, const size_type n,</div><div class="line">        const size_type partition_size)</div></pre></td></tr></table></figure>
-<h3 id="boost-pool内存池"><a href="#boost-pool内存池" class="headerlink" title="boost::pool内存池"></a>boost::pool内存池</h3><h4 id="内存管理的实现"><a href="#内存管理的实现" class="headerlink" title="内存管理的实现"></a>内存管理的实现</h4><p>boost::pool是boost提供的基本定长内存池，继承自simple_segregated_storage，在simple_segregated_storage的基础上，将连续的内存块block封装成PODptr, 通过链表对内存块PODptr进行管理，基本结构见下图。</p>
-<p><img src="http://oazhdekrm.bkt.clouddn.com/images/pool_pod_ptr.png" alt=""><br>boost::pool对象中包含一个PODPtr的list, 每个PODptr由三部分组成，最前面的Element是simple_segregated_storage中的block，即应用需要的内存。后面两个字段第一个字段指向的是下一个PODPtr，第二个字段下一个是PODptr的大小。</p>
-<ul>
-<li>内存申请<ul>
-<li>如果simple_segregated_storage中仍有可用内存，直接返回first指向的chunk.</li>
-<li>如果simple_segregated_storage没有可用内存了，申请一块指定长度的大内存，调用segregate函数，返回可用内存。</li>
-</ul>
-</li>
-<li>内存释放<ul>
-<li>直接调用simple_segregated_storage的free方法。</li>
-</ul>
-</li>
-</ul>
-<h4 id="内存对齐"><a href="#内存对齐" class="headerlink" title="内存对齐"></a>内存对齐</h4><p>在申请新的block后，需要访问NextPODPtr和NextPODSize，因此NextPODPtr和NextPODsize需要对齐在对应的内存上。NextPODPtr为void*类型，NextPODsize为size_type，最小的对齐的字节为两个类型对齐大小的最小公倍数。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">min_align = lcm(align_of(void*), align_of(size_type));</div></pre></td></tr></table></figure></p>
-<p>每个chunk最小分配的内存大于partition_size和lcm(sizeof(void*), sizeof(size_type))，然后取模对齐在min_algin上。<br>关于内存对齐更加深入的解释可以参考<a href="http://www.boost.org/doc/libs/1_65_0/libs/pool/doc/html/boost_pool/pool/pooling.html#boost_pool.pool.pooling.alignment.predicate_1__arrays_may_not_have_padding" target="_blank" rel="external">boost文档</a>。</p>
-<h4 id="接口-1"><a href="#接口-1" class="headerlink" title="接口"></a>接口</h4><p>Boost::pool的接口与simple_segregated的接口比较接近，提供了malloc、ordered_malloc、free、ordered_free等接口这里不再赘述。</p>
-<h3 id="boost-object-pool内存池"><a href="#boost-object-pool内存池" class="headerlink" title="boost::object_pool内存池"></a>boost::object_pool内存池</h3><p>boost的object_pool在boost::pool的基础上又做了一层封装，提供对对象自动自动构造和析构的功能，类似智能指针，避免了内存泄漏的问题。object_pool为了能够在析构时达到O(N)的复杂度，所有调用都使用ordered_malloc和ordered_free.因此object_pool分配和释放内存的复杂度均为O(N)。</p>
-<h3 id="boost内存池的几点思考"><a href="#boost内存池的几点思考" class="headerlink" title="boost内存池的几点思考"></a>boost内存池的几点思考</h3><ul>
-<li>为什么要有ordered_malloc和ordered_free?<blockquote>
-<p>An ordered pool maintains it’s free list in order of the address of each free block - this is the most efficient way if you’re likely to allocate arrays of objects. However, freeing an object can be O(N) in the number of currently free blocks which can be prohibitively expensive in some situations.</p>
-<p>An unordered pool does not maintain it’s free list in any particular order, as a result allocation and freeing single objects is very fast, but allocating arrays may be slow (and in particular the pool may not be aware that it contains enough free memory for the allocation request, and unnecessarily allocate more memory).</p>
-</blockquote>
-</li>
-</ul>
-<p>也就是说，按序分配和释放主要保证了在分配连续内存时有较高的成功率，同时在析构object_pool时能够实现O(N)的复杂度。</p>
-<ul>
-<li>何时使用object_pool?</li>
-</ul>
-<p>我个人的观点是尽量不要使用object_pool，除非你对自己的行为带来的后果由明确的了解。因为自动释放内存可以通过shared_ptr等智能指针来完成，而仅仅因为这一点好处将内存分配和释放的复杂度由O(1)提高的O(N)有些得不偿失。</p>
-<ul>
-<li>可以不依赖boost么？</li>
-</ul>
-<p>boost项目的相互依赖比较严重，其实从boost::pool的源码来看，内存池的实现还算比较独立，我想精简一个版本只保留boost::pool并且去掉按序分配和释放的功能。基本做好了，还要测试一下。全部完成以后会更新上来。</p>
+        <p>用过Linux系统的开发者应该都知道shell，它是类Unix操作系统的标配。操作系统的使用者通过shell调用系统或者自己实现的命令，完成任务。同时shell提供了很多好用的机制，输入输出重定向、管道等，使得用户可以通过不同命令的组合完成复杂的任务。本文主要介绍shell的基本原理和实现机制。<br><a id="more"></a></p>
+<h3 id="什么是shell"><a href="#什么是shell" class="headerlink" title="什么是shell"></a>什么是shell</h3><p>shell是用户和操作系统进行交互的命令行接口，它读取用户的输入并解释为对应的命令进行执行，并将命令执行的结果进行输出。shell命令最简单的形式如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cmd arg1 arg2 arg3</div></pre></td></tr></table></figure></p>
+<p>shell是一个应用程序，一个简单的shell的结构如下：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">while</span> (<span class="number">1</span>) &#123;</div><div class="line">    write (<span class="number">1</span>, <span class="string">"$ "</span>, <span class="number">2</span>);          <span class="comment">// 命令提示符</span></div><div class="line">    readcmd (cmd, args);         <span class="comment">// 分析用户输入</span></div><div class="line">    <span class="keyword">if</span> ((pid = fork ()) == <span class="number">0</span>) &#123;  <span class="comment">// fork() 如果是子进程</span></div><div class="line">	    exec (cmd, args, <span class="number">0</span>); <span class="comment">// exec() 执行命令</span></div><div class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (pid &gt; <span class="number">0</span>) &#123;        <span class="comment">// 如果是父进程</span></div><div class="line">	    wait (<span class="number">0</span>);            <span class="comment">// 等待子进程结束</span></div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">	    perror (<span class="string">"fork"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>fork和exec是Unixt提供的用来创建新进程的方式。fork会拷贝当前的进程空间(包括寄存器、内存、打开的文件等)，子进程会有一个不同的进程ID(PID)并且会有一个父进程ID(PPID)指向原来的进程。父进程和子进程一个重要的不同点在于fork的返回，fork系统调用会返回两次，父进程的fork调用会返回子进程ID，子进程会返回0，通过fork的返回判断当前进程是父进程还是子进程。exec系统调用是Unix提供的用来替换当前进程空间的一种方式，它会加载指定命令到当前的进程空间并运行。</p>
+<p>shell程序就是使用Unix提供的fork和exec来完成命令的调用。当用户输入命令以后，shell调用fork，然后等待子进程结束，子进程加载用户输入的命令到内存，并执行。</p>
+<p>fork和exec的简单的流程示例如下图：</p>
+<p><img src="http://oazhdekrm.bkt.clouddn.com/images/fork_exec.png" alt=""></p>
+<h3 id="输入输出重定向"><a href="#输入输出重定向" class="headerlink" title="输入输出重定向"></a>输入输出重定向</h3><p>在类Unix系统中，所有的进程启动时都会有0、1、2三个文件描述符，其中0是标准输入，1是标准输出，2是标准错误输出。默认情况下，shell总是从标准输入读取命令，将结果输出到标准输出和标准错误，同时shell也提供了输入输出重定向的功能。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sh &lt; script &gt; out // 从script中读取命令，将结果输出到out中</div></pre></td></tr></table></figure>
+<p>Unix的进程PCB结构中有一个打开文件描述符的table，每次进程打开一个文件，操作系统从file_descriptor_table选择一个index最小的表项进行创建。另外，前面我们已经提到了当进程调用fork系统调用时，这个PCB结构都会被拷贝，这其中也包括了file_descriptor_table，因此父进程和子进程共享打开的文件。</p>
+<p>所以，输入重定向的功能：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">sh &lt; scirpt;</div><div class="line"></div><div class="line">close(<span class="number">0</span>);</div><div class="line">open(<span class="string">"script"</span>, <span class="number">0666</span>);</div></pre></td></tr></table></figure>
+<p>关闭fd 0也就是标准输入以后，打开script文件，此时fd 0的指向便从标准输入变成了script文件。剩下的操作仍然从fd 0读取，实现了输入的重定向。</p>
+<p>输出的重定向与输入的重定向类似：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">ls 2&gt; out</div><div class="line"></div><div class="line">close(2);</div><div class="line">open(&quot;out&quot;, 0666);</div></pre></td></tr></table></figure></p>
+<p>一种特殊的情况，比如我们想把标准输出和错误输出一起指向同一个文件。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ls &gt; out 2&gt; out // 错误的做法</div><div class="line">ls &gt; out 2&gt;&amp;1   // 正确的做法</div></pre></td></tr></table></figure></p>
+<p>第一种做法之所以是错误的是因为这样做会两次打开out文件，两个文件描述符有各自独立的offset，每次写操作会导致相互覆盖(这里涉及到内核文件系统的实现，可以参考<a href="https://www.usna.edu/Users/cs/aviv/classes/ic221/s16/lec/21/lec.html]" target="_blank" rel="external">链接</a>。正确的做法是下面的这种情况，首先关闭fd 1，打开out文件，然后关闭fd 2，dup(1)，这样两个文件指向的是同一个全局文件描述符的结构，共享同一个offset。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">close(2);</div><div class="line">dup(1);</div></pre></td></tr></table></figure>
+<h3 id="管道"><a href="#管道" class="headerlink" title="管道"></a>管道</h3><p>Unix系统另外一个强大之处在于每个程序只要做好自己的工作，可以将多个应用程序组合在一起完成更加复杂的工作。例如要统计一个每行都是qq号的文件有多少个不同的号码。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sort &lt; qq.in | unique | wc</div></pre></td></tr></table></figure>
+<p>其中<code>|</code>便是管道，管道的作用是将前一个程序的输出作为输入提供给下一个应用。管道也是unix操作系统中能够组合多个程序的基础。</p>
+<p>在Unix操作系统中，pipe系统调用为实现上述的操作提供了前提。pipe(int pipefd[2])系统调用会创建一个单向的通道用于进程间通信。pipe中传入一个int pipefd[2]的数组，调用成功后pipefd中填入管道读写端的文件描述符，其中pipefd<a href="http://oazhdekrm.bkt.clouddn.com/images/fork_exec.png" target="_blank" rel="external">1</a>作为管道的写端，pipefd[0]作为管道的读端。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">int fds[2];</div><div class="line">char buf[512];</div><div class="line">int n;</div><div class="line"></div><div class="line">pipe(fds);</div><div class="line">write(fds[1], &quot;hello&quot;, 5);</div><div class="line">n = read(fds[0], buf, sizeof(buf));</div></pre></td></tr></table></figure></p>
+<p>结合管道和前面提到的输入输出重定向，在shell中创建管道后，fork得到的子进程会继承父进程创建的管道，管道左边命令进程的输出重定向到管道的写端，管道右边命令进程的输入重定向的管道的读端，就实现了管道的功能。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">cmd 1 | cmd 2 | ...</div><div class="line"></div><div class="line">int fds[2];</div><div class="line"></div><div class="line">if (pipe(fds) &lt; 0) panic (&quot;error&quot;);</div><div class="line">if ((pid = fork ()) == 0) &#123;  child (left end of pipe)</div><div class="line">   close (1);</div><div class="line">   dup (fds[1]);   // fds[1] is the write end, ret will be 1</div><div class="line">   close (fds[0]);       // close read end</div><div class="line">   close (fds[1]);       // close fds[1]</div><div class="line">   exec (command1, args1, 0);</div><div class="line">&#125; else if (pid &gt; 0) &#123;        // parent (right end of pipe)</div><div class="line">   close (0);</div><div class="line">   dup (fds[0]);   // fds[0] is the read end, ret will be 0</div><div class="line">   close (fds[0]);</div><div class="line">   close (fds[1]);       // close write end</div><div class="line">   exec (command2, args2, 0);</div><div class="line">&#125; else &#123;</div><div class="line">   printf (&quot;Unable to fork\n&quot;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>由此可见，Unix的设计非常巧妙，这应该也是Unix后来取得成功的重要原因。</p>
 
       
     </div>
@@ -474,8 +452,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/08/18/STL-空间配置器/" rel="next" title="STL 空间配置器">
-                <i class="fa fa-chevron-left"></i> STL 空间配置器
+              <a href="/2017/08/27/boost内存池的实现/" rel="next" title="boost内存池的实现">
+                <i class="fa fa-chevron-left"></i> boost内存池的实现
               </a>
             
           </div>
@@ -483,10 +461,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/09/02/unix-shell/" rel="prev" title="漫谈Unix Shell">
-                漫谈Unix Shell <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -654,7 +628,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#simple-segregated-storage内存管理"><span class="nav-number">1.</span> <span class="nav-text">simple_segregated_storage内存管理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#基本思想"><span class="nav-number">1.1.</span> <span class="nav-text">基本思想</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#接口"><span class="nav-number">1.2.</span> <span class="nav-text">接口</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#boost-pool内存池"><span class="nav-number">2.</span> <span class="nav-text">boost::pool内存池</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#内存管理的实现"><span class="nav-number">2.1.</span> <span class="nav-text">内存管理的实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#内存对齐"><span class="nav-number">2.2.</span> <span class="nav-text">内存对齐</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#接口-1"><span class="nav-number">2.3.</span> <span class="nav-text">接口</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#boost-object-pool内存池"><span class="nav-number">3.</span> <span class="nav-text">boost::object_pool内存池</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#boost内存池的几点思考"><span class="nav-number">4.</span> <span class="nav-text">boost内存池的几点思考</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是shell"><span class="nav-number">1.</span> <span class="nav-text">什么是shell</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#输入输出重定向"><span class="nav-number">2.</span> <span class="nav-text">输入输出重定向</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#管道"><span class="nav-number">3.</span> <span class="nav-text">管道</span></a></li></ol></div>
             
 
           </div>
@@ -835,9 +809,9 @@
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://blog.liqiang.me/2017/08/27/boost内存池的实现/';
-          this.page.identifier = '2017/08/27/boost内存池的实现/';
-          this.page.title = 'boost内存池的实现';
+          this.page.url = 'http://blog.liqiang.me/2017/09/02/unix-shell/';
+          this.page.identifier = '2017/09/02/unix-shell/';
+          this.page.title = '漫谈Unix Shell';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://liqiang.disqus.com/embed.js';
