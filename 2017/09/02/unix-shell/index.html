@@ -100,12 +100,12 @@
 <meta property="og:url" content="http://blog.liqiang.me/2017/09/02/unix-shell/index.html">
 <meta property="og:site_name" content="CoolCoding">
 <meta property="og:description" content="用过Linux系统的开发者应该都知道shell，它是类Unix操作系统的标配。操作系统的使用者通过shell调用系统或者自己实现的命令，完成任务。同时shell提供了很多好用的机制，输入输出重定向、管道等，使得用户可以通过不同命令的组合完成复杂的任务。本文主要介绍shell的基本原理和实现机制。">
-<meta property="og:image" content="http://oazhdekrm.bkt.clouddn.com/images/fork_exec.png">
-<meta property="og:updated_time" content="2017-09-02T14:55:20.000Z">
+<meta property="og:image" content="http://blog.liqiang.me/images/fork_exec.png">
+<meta property="og:updated_time" content="2018-11-09T14:58:31.710Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="漫谈Unix Shell">
 <meta name="twitter:description" content="用过Linux系统的开发者应该都知道shell，它是类Unix操作系统的标配。操作系统的使用者通过shell调用系统或者自己实现的命令，完成任务。同时shell提供了很多好用的机制，输入输出重定向、管道等，使得用户可以通过不同命令的组合完成复杂的任务。本文主要介绍shell的基本原理和实现机制。">
-<meta name="twitter:image" content="http://oazhdekrm.bkt.clouddn.com/images/fork_exec.png">
+<meta name="twitter:image" content="http://blog.liqiang.me/images/fork_exec.png">
 
 
 
@@ -301,7 +301,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jayce">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://oazhdekrm.bkt.clouddn.com/images/avatar.jpg">
+      <meta itemprop="image" content="/images/avatar.jpg">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -402,7 +402,7 @@
 <p>fork和exec是Unixt提供的用来创建新进程的方式。fork会拷贝当前的进程空间(包括寄存器、内存、打开的文件等)，子进程会有一个不同的进程ID(PID)并且会有一个父进程ID(PPID)指向原来的进程。父进程和子进程一个重要的不同点在于fork的返回，fork系统调用会返回两次，父进程的fork调用会返回子进程ID，子进程会返回0，通过fork的返回判断当前进程是父进程还是子进程。exec系统调用是Unix提供的用来替换当前进程空间的一种方式，它会加载指定命令到当前的进程空间并运行。</p>
 <p>shell程序就是使用Unix提供的fork和exec来完成命令的调用。当用户输入命令以后，shell调用fork，然后等待子进程结束，子进程加载用户输入的命令到内存，并执行。</p>
 <p>fork和exec的简单的流程示例如下图：</p>
-<p><img src="http://oazhdekrm.bkt.clouddn.com/images/fork_exec.png" alt=""></p>
+<p><img src="/images/fork_exec.png" alt=""></p>
 <h3 id="输入输出重定向"><a href="#输入输出重定向" class="headerlink" title="输入输出重定向"></a>输入输出重定向</h3><p>在类Unix系统中，所有的进程启动时都会有0、1、2三个文件描述符，其中0是标准输入，1是标准输出，2是标准错误输出。默认情况下，shell总是从标准输入读取命令，将结果输出到标准输出和标准错误，同时shell也提供了输入输出重定向的功能。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sh &lt; script &gt; out // 从script中读取命令，将结果输出到out中</div></pre></td></tr></table></figure>
 <p>Unix的进程PCB结构中有一个打开文件描述符的table，每次进程打开一个文件，操作系统从file_descriptor_table选择一个index最小的表项进行创建。另外，前面我们已经提到了当进程调用fork系统调用时，这个PCB结构都会被拷贝，这其中也包括了file_descriptor_table，因此父进程和子进程共享打开的文件。</p>
@@ -416,7 +416,7 @@
 <h3 id="管道"><a href="#管道" class="headerlink" title="管道"></a>管道</h3><p>Unix系统另外一个强大之处在于每个程序只要做好自己的工作，可以将多个应用程序组合在一起完成更加复杂的工作。例如要统计一个每行都是qq号的文件有多少个不同的号码。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sort &lt; qq.in | unique | wc</div></pre></td></tr></table></figure>
 <p>其中<code>|</code>便是管道，管道的作用是将前一个程序的输出作为输入提供给下一个应用。管道也是unix操作系统中能够组合多个程序的基础。</p>
-<p>在Unix操作系统中，pipe系统调用为实现上述的操作提供了前提。pipe(int pipefd[2])系统调用会创建一个单向的通道用于进程间通信。pipe中传入一个int pipefd[2]的数组，调用成功后pipefd中填入管道读写端的文件描述符，其中pipefd<a href="http://oazhdekrm.bkt.clouddn.com/images/fork_exec.png" target="_blank" rel="external">1</a>作为管道的写端，pipefd[0]作为管道的读端。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">int fds[2];</div><div class="line">char buf[512];</div><div class="line">int n;</div><div class="line"></div><div class="line">pipe(fds);</div><div class="line">write(fds[1], &quot;hello&quot;, 5);</div><div class="line">n = read(fds[0], buf, sizeof(buf));</div></pre></td></tr></table></figure></p>
+<p>在Unix操作系统中，pipe系统调用为实现上述的操作提供了前提。pipe(int pipefd[2])系统调用会创建一个单向的通道用于进程间通信。pipe中传入一个int pipefd[2]的数组，调用成功后pipefd中填入管道读写端的文件描述符，其中pipefd<a href="/images/fork_exec.png">1</a>作为管道的写端，pipefd[0]作为管道的读端。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">int fds[2];</div><div class="line">char buf[512];</div><div class="line">int n;</div><div class="line"></div><div class="line">pipe(fds);</div><div class="line">write(fds[1], &quot;hello&quot;, 5);</div><div class="line">n = read(fds[0], buf, sizeof(buf));</div></pre></td></tr></table></figure></p>
 <p>结合管道和前面提到的输入输出重定向，在shell中创建管道后，fork得到的子进程会继承父进程创建的管道，管道左边命令进程的输出重定向到管道的写端，管道右边命令进程的输入重定向的管道的读端，就实现了管道的功能。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">cmd 1 | cmd 2 | ...</div><div class="line"></div><div class="line">int fds[2];</div><div class="line"></div><div class="line">if (pipe(fds) &lt; 0) panic (&quot;error&quot;);</div><div class="line">if ((pid = fork ()) == 0) &#123;  child (left end of pipe)</div><div class="line">   close (1);</div><div class="line">   dup (fds[1]);   // fds[1] is the write end, ret will be 1</div><div class="line">   close (fds[0]);       // close read end</div><div class="line">   close (fds[1]);       // close fds[1]</div><div class="line">   exec (command1, args1, 0);</div><div class="line">&#125; else if (pid &gt; 0) &#123;        // parent (right end of pipe)</div><div class="line">   close (0);</div><div class="line">   dup (fds[0]);   // fds[0] is the read end, ret will be 0</div><div class="line">   close (fds[0]);</div><div class="line">   close (fds[1]);       // close write end</div><div class="line">   exec (command2, args2, 0);</div><div class="line">&#125; else &#123;</div><div class="line">   printf (&quot;Unable to fork\n&quot;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>由此可见，Unix的设计非常巧妙，这应该也是Unix后来取得成功的重要原因。</p>
@@ -532,7 +532,7 @@
       <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
-               src="http://oazhdekrm.bkt.clouddn.com/images/avatar.jpg"
+               src="/images/avatar.jpg"
                alt="Jayce" />
           <p class="site-author-name" itemprop="name">Jayce</p>
            
@@ -651,7 +651,7 @@
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2017</span>
+  <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -677,7 +677,7 @@
 
         
 <div class="busuanzi-count">
-  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
   
 
