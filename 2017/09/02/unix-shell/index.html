@@ -2,14 +2,23 @@
 
 
 
+
+
+
+
+
+
+
+
+
   
 
 
-<html class="theme-next gemini use-motion" lang="zh-Hans">
-<head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
 
 
@@ -20,8 +29,6 @@
 
 
 
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
 
 
 
@@ -37,48 +44,23 @@
 
 
 
-  
-  
-  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
 
 
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
 
 
-  
-  
-  
-  
-
-  
-    
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    
-    
-    <link href="//fonts.proxy.ustclug.org/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-  
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
 
 
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
 
 
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
 
 
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
-
-<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
-
-
-  <meta name="keywords" content="Unix,shell," />
+  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
 
 
 
@@ -86,42 +68,18 @@
 
 
 
-
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
-
-
-
-
-
-
-<meta name="description" content="用过Linux系统的开发者应该都知道shell，它是类Unix操作系统的标配。操作系统的使用者通过shell调用系统或者自己实现的命令，完成任务。同时shell提供了很多好用的机制，输入输出重定向、管道等，使得用户可以通过不同命令的组合完成复杂的任务。本文主要介绍shell的基本原理和实现机制。">
-<meta property="og:type" content="article">
-<meta property="og:title" content="漫谈Unix Shell">
-<meta property="og:url" content="http://blog.liqiang.me/2017/09/02/unix-shell/index.html">
-<meta property="og:site_name" content="CoolCoding">
-<meta property="og:description" content="用过Linux系统的开发者应该都知道shell，它是类Unix操作系统的标配。操作系统的使用者通过shell调用系统或者自己实现的命令，完成任务。同时shell提供了很多好用的机制，输入输出重定向、管道等，使得用户可以通过不同命令的组合完成复杂的任务。本文主要介绍shell的基本原理和实现机制。">
-<meta property="og:image" content="http://blog.liqiang.me/images/fork_exec.png">
-<meta property="og:updated_time" content="2018-11-09T14:58:31.710Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="漫谈Unix Shell">
-<meta name="twitter:description" content="用过Linux系统的开发者应该都知道shell，它是类Unix操作系统的标配。操作系统的使用者通过shell调用系统或者自己实现的命令，完成任务。同时shell提供了很多好用的机制，输入输出重定向、管道等，使得用户可以通过不同命令的组合完成复杂的任务。本文主要介绍shell的基本原理和实现机制。">
-<meta name="twitter:image" content="http://blog.liqiang.me/images/fork_exec.png">
-
-
-
-<script type="text/javascript" id="hexo.configurations">
+<script id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
     scheme: 'Gemini',
-    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
-    fancybox: true,
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
     tabs: true,
-    motion: true,
-    duoshuo: {
-      userId: '0',
-      author: '博主'
-    },
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
     algolia: {
       applicationID: '',
       apiKey: '',
@@ -133,12 +91,40 @@
 </script>
 
 
-
-  <link rel="canonical" href="http://blog.liqiang.me/2017/09/02/unix-shell/"/>
-
+  
 
 
 
+
+  <meta name="description" content="用过Linux系统的开发者应该都知道shell，它是类Unix操作系统的标配。操作系统的使用者通过shell调用系统或者自己实现的命令，完成任务。同时shell提供了很多好用的机制，输入输出重定向、管道等，使得用户可以通过不同命令的组合完成复杂的任务。本文主要介绍shell的基本原理和实现机制。">
+<meta name="keywords" content="Unix,shell">
+<meta property="og:type" content="article">
+<meta property="og:title" content="漫谈Unix Shell">
+<meta property="og:url" content="http://blog.liqiang.me/2017/09/02/unix-shell/index.html">
+<meta property="og:site_name" content="CoolCoding">
+<meta property="og:description" content="用过Linux系统的开发者应该都知道shell，它是类Unix操作系统的标配。操作系统的使用者通过shell调用系统或者自己实现的命令，完成任务。同时shell提供了很多好用的机制，输入输出重定向、管道等，使得用户可以通过不同命令的组合完成复杂的任务。本文主要介绍shell的基本原理和实现机制。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://blog.liqiang.me/images/fork_exec.png">
+<meta property="og:updated_time" content="2019-01-19T13:10:07.092Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="漫谈Unix Shell">
+<meta name="twitter:description" content="用过Linux系统的开发者应该都知道shell，它是类Unix操作系统的标配。操作系统的使用者通过shell调用系统或者自己实现的命令，完成任务。同时shell提供了很多好用的机制，输入输出重定向、管道等，使得用户可以通过不同命令的组合完成复杂的任务。本文主要介绍shell的基本原理和实现机制。">
+<meta name="twitter:image" content="http://blog.liqiang.me/images/fork_exec.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://blog.liqiang.me/2017/09/02/unix-shell/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
 
   <title>漫谈Unix Shell | CoolCoding</title>
   
@@ -146,17 +132,17 @@
 
 
 
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-  ga('create', 'UA-62533317-1', 'auto');
-  ga('send', 'pageview');
-</script>
+  <script async src="//www.googletagmanager.com/gtag/js?id=UA-62533317-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-62533317-1');
+  </script>
 
 
-  <script type="text/javascript">
+
+  <script>
     var _hmt = _hmt || [];
     (function() {
       var hm = document.createElement("script");
@@ -169,37 +155,64 @@
 
 
 
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
 
   
   
     
   
 
-  <div class="container sidebar-position-left page-post-detail ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
-  <div class="site-meta ">
+  <div class="site-meta">
     
 
     <div class="custom-logo-site-title">
-      <a href="/"  class="brand" rel="start">
+      <a href="/" class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
         <span class="site-title">CoolCoding</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
-      
-        <p class="site-subtitle"></p>
-      
+    
+    
   </div>
 
   <div class="site-nav-toggle">
-    <button>
+    <button aria-label="切换导航栏">
       <span class="btn-bar"></span>
       <span class="btn-bar"></span>
       <span class="btn-bar"></span>
@@ -207,65 +220,103 @@
   </div>
 </div>
 
-<nav class="site-nav">
-  
 
+
+<nav class="site-nav">
   
     <ul id="menu" class="menu">
       
         
-        <li class="menu-item menu-item-home">
-          <a href="/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
-            
-            首页
-          </a>
-        </li>
-      
         
-        <li class="menu-item menu-item-categories">
-          <a href="/categories/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
-            
-            分类
-          </a>
-        </li>
-      
         
-        <li class="menu-item menu-item-about">
-          <a href="/about/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
-            
-            关于
-          </a>
-        </li>
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
       
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
         
-        <li class="menu-item menu-item-archives">
-          <a href="/archives/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
-            
-            归档
-          </a>
-        </li>
-      
         
-        <li class="menu-item menu-item-tags">
-          <a href="/tags/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
-            
-            标签
-          </a>
-        </li>
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
       
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
 
       
+      
     </ul>
+  
+
   
 
   
@@ -273,12 +324,23 @@
 
 
 
- </div>
+  
+
+
+
+</div>
     </header>
+
+    
+
 
     <main id="main" class="main">
       <div class="main-inner">
         <div class="content-wrap">
+          
+            
+
+          
           <div id="content" class="content">
             
 
@@ -291,20 +353,22 @@
   
   
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
   
   
   
   <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://blog.liqiang.me/2017/09/02/unix-shell/">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jayce">
-      <meta itemprop="description" content="">
+      <meta itemprop="description" content="程序猿都是神的孩子">
       <meta itemprop="image" content="/images/avatar.jpg">
     </span>
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="CoolCoding">
     </span>
 
@@ -313,11 +377,20 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">漫谈Unix Shell</h1>
+          <h1 class="post-title" itemprop="name headline">漫谈Unix Shell
+
+              
+            
+          </h1>
         
 
         <div class="post-meta">
           <span class="post-time">
+
+            
+            
+            
+
             
               <span class="post-meta-item-icon">
                 <i class="fa fa-calendar-o"></i>
@@ -325,18 +398,35 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-02T22:15:37+08:00">
-                2017-09-02
-              </time>
+
+              
+                
+              
+
+              <time title="创建时间：2017-09-02 22:15:37" itemprop="dateCreated datePublished" datetime="2017-09-02T22:15:37+08:00">2017-09-02</time>
             
 
             
+              
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-01-19 21:10:07" itemprop="dateModified" datetime="2019-01-19T21:10:07+08:00">2019-01-19</time>
+              
             
           </span>
 
           
-            <span class="post-category" >
+            <span class="post-category">
             
               <span class="post-meta-divider">|</span>
             
@@ -347,11 +437,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/操作系统/" itemprop="url" rel="index">
-                    <span itemprop="name">操作系统</span>
-                  </a>
-                </span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/操作系统/" itemprop="url" rel="index"><span itemprop="name">操作系统</span></a></span>
 
                 
                 
@@ -361,22 +447,30 @@
 
           
             
+            
           
 
           
           
-             <span id="/2017/09/02/unix-shell/" class="leancloud_visitors" data-flag-title="漫谈Unix Shell">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
+            <span id="/2017/09/02/unix-shell/" class="leancloud_visitors" data-flag-title="漫谈Unix Shell">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读次数：</span>
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
           
 
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
           
 
           
@@ -397,38 +491,44 @@
 
       
         <p>用过Linux系统的开发者应该都知道shell，它是类Unix操作系统的标配。操作系统的使用者通过shell调用系统或者自己实现的命令，完成任务。同时shell提供了很多好用的机制，输入输出重定向、管道等，使得用户可以通过不同命令的组合完成复杂的任务。本文主要介绍shell的基本原理和实现机制。<br><a id="more"></a></p>
-<h3 id="什么是shell"><a href="#什么是shell" class="headerlink" title="什么是shell"></a>什么是shell</h3><p>shell是用户和操作系统进行交互的命令行接口，它读取用户的输入并解释为对应的命令进行执行，并将命令执行的结果进行输出。shell命令最简单的形式如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cmd arg1 arg2 arg3</div></pre></td></tr></table></figure></p>
-<p>shell是一个应用程序，一个简单的shell的结构如下：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">while</span> (<span class="number">1</span>) &#123;</div><div class="line">    write (<span class="number">1</span>, <span class="string">"$ "</span>, <span class="number">2</span>);          <span class="comment">// 命令提示符</span></div><div class="line">    readcmd (cmd, args);         <span class="comment">// 分析用户输入</span></div><div class="line">    <span class="keyword">if</span> ((pid = fork ()) == <span class="number">0</span>) &#123;  <span class="comment">// fork() 如果是子进程</span></div><div class="line">	    exec (cmd, args, <span class="number">0</span>); <span class="comment">// exec() 执行命令</span></div><div class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (pid &gt; <span class="number">0</span>) &#123;        <span class="comment">// 如果是父进程</span></div><div class="line">	    wait (<span class="number">0</span>);            <span class="comment">// 等待子进程结束</span></div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">	    perror (<span class="string">"fork"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="什么是shell"><a href="#什么是shell" class="headerlink" title="什么是shell"></a>什么是shell</h3><p>shell是用户和操作系统进行交互的命令行接口，它读取用户的输入并解释为对应的命令进行执行，并将命令执行的结果进行输出。shell命令最简单的形式如下：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cmd arg1 arg2 arg3</span><br></pre></td></tr></table></figure></p>
+<p>shell是一个应用程序，一个简单的shell的结构如下：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> (<span class="number">1</span>) &#123;</span><br><span class="line">    write (<span class="number">1</span>, <span class="string">"$ "</span>, <span class="number">2</span>);          <span class="comment">// 命令提示符</span></span><br><span class="line">    readcmd (cmd, args);         <span class="comment">// 分析用户输入</span></span><br><span class="line">    <span class="keyword">if</span> ((pid = fork ()) == <span class="number">0</span>) &#123;  <span class="comment">// fork() 如果是子进程</span></span><br><span class="line">	    exec (cmd, args, <span class="number">0</span>); <span class="comment">// exec() 执行命令</span></span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (pid &gt; <span class="number">0</span>) &#123;        <span class="comment">// 如果是父进程</span></span><br><span class="line">	    wait (<span class="number">0</span>);            <span class="comment">// 等待子进程结束</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">	    perror (<span class="string">"fork"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>fork和exec是Unixt提供的用来创建新进程的方式。fork会拷贝当前的进程空间(包括寄存器、内存、打开的文件等)，子进程会有一个不同的进程ID(PID)并且会有一个父进程ID(PPID)指向原来的进程。父进程和子进程一个重要的不同点在于fork的返回，fork系统调用会返回两次，父进程的fork调用会返回子进程ID，子进程会返回0，通过fork的返回判断当前进程是父进程还是子进程。exec系统调用是Unix提供的用来替换当前进程空间的一种方式，它会加载指定命令到当前的进程空间并运行。</p>
 <p>shell程序就是使用Unix提供的fork和exec来完成命令的调用。当用户输入命令以后，shell调用fork，然后等待子进程结束，子进程加载用户输入的命令到内存，并执行。</p>
 <p>fork和exec的简单的流程示例如下图：</p>
 <p><img src="/images/fork_exec.png" alt=""></p>
 <h3 id="输入输出重定向"><a href="#输入输出重定向" class="headerlink" title="输入输出重定向"></a>输入输出重定向</h3><p>在类Unix系统中，所有的进程启动时都会有0、1、2三个文件描述符，其中0是标准输入，1是标准输出，2是标准错误输出。默认情况下，shell总是从标准输入读取命令，将结果输出到标准输出和标准错误，同时shell也提供了输入输出重定向的功能。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sh &lt; script &gt; out // 从script中读取命令，将结果输出到out中</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sh &lt; script &gt; out // 从script中读取命令，将结果输出到out中</span><br></pre></td></tr></table></figure>
 <p>Unix的进程PCB结构中有一个打开文件描述符的table，每次进程打开一个文件，操作系统从file_descriptor_table选择一个index最小的表项进行创建。另外，前面我们已经提到了当进程调用fork系统调用时，这个PCB结构都会被拷贝，这其中也包括了file_descriptor_table，因此父进程和子进程共享打开的文件。</p>
 <p>所以，输入重定向的功能：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">sh &lt; scirpt;</div><div class="line"></div><div class="line">close(<span class="number">0</span>);</div><div class="line">open(<span class="string">"script"</span>, <span class="number">0666</span>);</div></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sh &lt; scirpt;</span><br><span class="line"></span><br><span class="line">close(<span class="number">0</span>);</span><br><span class="line">open(<span class="string">"script"</span>, <span class="number">0666</span>);</span><br></pre></td></tr></table></figure>
 <p>关闭fd 0也就是标准输入以后，打开script文件，此时fd 0的指向便从标准输入变成了script文件。剩下的操作仍然从fd 0读取，实现了输入的重定向。</p>
-<p>输出的重定向与输入的重定向类似：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">ls 2&gt; out</div><div class="line"></div><div class="line">close(2);</div><div class="line">open(&quot;out&quot;, 0666);</div></pre></td></tr></table></figure></p>
-<p>一种特殊的情况，比如我们想把标准输出和错误输出一起指向同一个文件。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ls &gt; out 2&gt; out // 错误的做法</div><div class="line">ls &gt; out 2&gt;&amp;1   // 正确的做法</div></pre></td></tr></table></figure></p>
-<p>第一种做法之所以是错误的是因为这样做会两次打开out文件，两个文件描述符有各自独立的offset，每次写操作会导致相互覆盖(这里涉及到内核文件系统的实现，可以参考<a href="https://www.usna.edu/Users/cs/aviv/classes/ic221/s16/lec/21/lec.html]" target="_blank" rel="external">链接</a>。正确的做法是下面的这种情况，首先关闭fd 1，打开out文件，然后关闭fd 2，dup(1)，这样两个文件指向的是同一个全局文件描述符的结构，共享同一个offset。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">close(2);</div><div class="line">dup(1);</div></pre></td></tr></table></figure>
+<p>输出的重定向与输入的重定向类似：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ls 2&gt; out</span><br><span class="line"></span><br><span class="line">close(2);</span><br><span class="line">open(&quot;out&quot;, 0666);</span><br></pre></td></tr></table></figure></p>
+<p>一种特殊的情况，比如我们想把标准输出和错误输出一起指向同一个文件。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ls &gt; out 2&gt; out // 错误的做法</span><br><span class="line">ls &gt; out 2&gt;&amp;1   // 正确的做法</span><br></pre></td></tr></table></figure></p>
+<p>第一种做法之所以是错误的是因为这样做会两次打开out文件，两个文件描述符有各自独立的offset，每次写操作会导致相互覆盖(这里涉及到内核文件系统的实现，可以参考<a href="https://www.usna.edu/Users/cs/aviv/classes/ic221/s16/lec/21/lec.html]" target="_blank" rel="noopener">链接</a>。正确的做法是下面的这种情况，首先关闭fd 1，打开out文件，然后关闭fd 2，dup(1)，这样两个文件指向的是同一个全局文件描述符的结构，共享同一个offset。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">close(2);</span><br><span class="line">dup(1);</span><br></pre></td></tr></table></figure>
 <h3 id="管道"><a href="#管道" class="headerlink" title="管道"></a>管道</h3><p>Unix系统另外一个强大之处在于每个程序只要做好自己的工作，可以将多个应用程序组合在一起完成更加复杂的工作。例如要统计一个每行都是qq号的文件有多少个不同的号码。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sort &lt; qq.in | unique | wc</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sort &lt; qq.in | unique | wc</span><br></pre></td></tr></table></figure>
 <p>其中<code>|</code>便是管道，管道的作用是将前一个程序的输出作为输入提供给下一个应用。管道也是unix操作系统中能够组合多个程序的基础。</p>
-<p>在Unix操作系统中，pipe系统调用为实现上述的操作提供了前提。pipe(int pipefd[2])系统调用会创建一个单向的通道用于进程间通信。pipe中传入一个int pipefd[2]的数组，调用成功后pipefd中填入管道读写端的文件描述符，其中pipefd<a href="/images/fork_exec.png">1</a>作为管道的写端，pipefd[0]作为管道的读端。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">int fds[2];</div><div class="line">char buf[512];</div><div class="line">int n;</div><div class="line"></div><div class="line">pipe(fds);</div><div class="line">write(fds[1], &quot;hello&quot;, 5);</div><div class="line">n = read(fds[0], buf, sizeof(buf));</div></pre></td></tr></table></figure></p>
+<p>在Unix操作系统中，pipe系统调用为实现上述的操作提供了前提。pipe(int pipefd[2])系统调用会创建一个单向的通道用于进程间通信。pipe中传入一个int pipefd[2]的数组，调用成功后pipefd中填入管道读写端的文件描述符，其中pipefd<a href="/images/fork_exec.png">1</a>作为管道的写端，pipefd[0]作为管道的读端。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">int fds[2];</span><br><span class="line">char buf[512];</span><br><span class="line">int n;</span><br><span class="line"></span><br><span class="line">pipe(fds);</span><br><span class="line">write(fds[1], &quot;hello&quot;, 5);</span><br><span class="line">n = read(fds[0], buf, sizeof(buf));</span><br></pre></td></tr></table></figure></p>
 <p>结合管道和前面提到的输入输出重定向，在shell中创建管道后，fork得到的子进程会继承父进程创建的管道，管道左边命令进程的输出重定向到管道的写端，管道右边命令进程的输入重定向的管道的读端，就实现了管道的功能。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">cmd 1 | cmd 2 | ...</div><div class="line"></div><div class="line">int fds[2];</div><div class="line"></div><div class="line">if (pipe(fds) &lt; 0) panic (&quot;error&quot;);</div><div class="line">if ((pid = fork ()) == 0) &#123;  child (left end of pipe)</div><div class="line">   close (1);</div><div class="line">   dup (fds[1]);   // fds[1] is the write end, ret will be 1</div><div class="line">   close (fds[0]);       // close read end</div><div class="line">   close (fds[1]);       // close fds[1]</div><div class="line">   exec (command1, args1, 0);</div><div class="line">&#125; else if (pid &gt; 0) &#123;        // parent (right end of pipe)</div><div class="line">   close (0);</div><div class="line">   dup (fds[0]);   // fds[0] is the read end, ret will be 0</div><div class="line">   close (fds[0]);</div><div class="line">   close (fds[1]);       // close write end</div><div class="line">   exec (command2, args2, 0);</div><div class="line">&#125; else &#123;</div><div class="line">   printf (&quot;Unable to fork\n&quot;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">cmd 1 | cmd 2 | ...</span><br><span class="line"></span><br><span class="line">int fds[2];</span><br><span class="line"></span><br><span class="line">if (pipe(fds) &lt; 0) panic (&quot;error&quot;);</span><br><span class="line">if ((pid = fork ()) == 0) &#123;  child (left end of pipe)</span><br><span class="line">   close (1);</span><br><span class="line">   dup (fds[1]);   // fds[1] is the write end, ret will be 1</span><br><span class="line">   close (fds[0]);       // close read end</span><br><span class="line">   close (fds[1]);       // close fds[1]</span><br><span class="line">   exec (command1, args1, 0);</span><br><span class="line">&#125; else if (pid &gt; 0) &#123;        // parent (right end of pipe)</span><br><span class="line">   close (0);</span><br><span class="line">   dup (fds[0]);   // fds[0] is the read end, ret will be 0</span><br><span class="line">   close (fds[0]);</span><br><span class="line">   close (fds[1]);       // close write end</span><br><span class="line">   exec (command2, args2, 0);</span><br><span class="line">&#125; else &#123;</span><br><span class="line">   printf (&quot;Unable to fork\n&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>由此可见，Unix的设计非常巧妙，这应该也是Unix后来取得成功的重要原因。</p>
 
       
     </div>
+
+    
+
     
     
     
 
     
 
+    
+      
+    
     
 
     
@@ -476,23 +576,19 @@
   </article>
 
 
-
-    <div class="post-spread">
-      
-    </div>
   </div>
 
 
           </div>
           
 
-
-          
-  <div class="comments" id="comments">
-    
+  
+    <div class="comments" id="comments">
       <div id="lv-container" data-id="city" data-uid="MTAyMC8zMDQ4MS83MDMy"></div>
-    
-  </div>
+    </div>
+
+  
+
 
 
         </div>
@@ -515,111 +611,134 @@
 
       
         <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
             文章目录
           </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
             站点概览
           </li>
         </ul>
       
 
-      <section class="site-overview sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" itemprop="image"
-               src="/images/avatar.jpg"
-               alt="Jayce" />
-          <p class="site-author-name" itemprop="name">Jayce</p>
-           
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Jayce">
+            
+              <p class="site-author-name" itemprop="name">Jayce</p>
               <p class="site-description motion-element" itemprop="description">程序猿都是神的孩子</p>
-          
-        </div>
-        <nav class="site-state motion-element">
-
-          
-            <div class="site-state-item site-state-posts">
-              <a href="/archives/">
-                <span class="site-state-item-count">3</span>
-                <span class="site-state-item-name">日志</span>
-              </a>
-            </div>
-          
-
-          
-            
-            
-            <div class="site-state-item site-state-categories">
-              <a href="/categories/index.html">
-                <span class="site-state-item-count">2</span>
-                <span class="site-state-item-name">分类</span>
-              </a>
-            </div>
-          
-
-          
-            
-            
-            <div class="site-state-item site-state-tags">
-              <a href="/tags/index.html">
-                <span class="site-state-item-count">5</span>
-                <span class="site-state-item-name">标签</span>
-              </a>
-            </div>
-          
-
-        </nav>
-
-        
-
-        <div class="links-of-author motion-element">
-          
-            
-              <span class="links-of-author-item">
-                <a href="https://github.com/jaycelq" target="_blank" title="GitHub">
-                  
-                    <i class="fa fa-fw fa-github"></i>
-                  
-                    
-                      GitHub
-                    
-                </a>
-              </span>
-            
-          
-        </div>
-
-        
-        
-
-        
-        
-          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
-            <div class="links-of-blogroll-title">
-              <i class="fa  fa-fw fa-globe"></i>
-              友情链接
-            </div>
-            <ul class="links-of-blogroll-list">
-              
-                <li class="links-of-blogroll-item">
-                  <a href="http://jerryzou.com" title="咀嚼之味" target="_blank">咀嚼之味</a>
-                </li>
-              
-            </ul>
           </div>
-        
 
-        
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
 
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
 
-      </section>
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/jaycelq" title="GitHub &rarr; https://github.com/jaycelq" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://jerryzou.com" title="http://jerryzou.com" rel="noopener" target="_blank">咀嚼之味</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
 
       
       <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
           <div class="post-toc">
 
             
-              
+            
+            
             
 
             
@@ -627,7 +746,7 @@
             
 
           </div>
-        </section>
+        </div>
       <!--/noindex-->
       
 
@@ -643,44 +762,54 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright" >
-  
-  &copy; 
-  <span itemprop="copyrightYear">2018</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">Jayce</span>
+
+  
 
   
 </div>
 
 
-  <div class="powered-by">
-    由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
-  </div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
 
   <span class="post-meta-divider">|</span>
 
-  <div class="theme-info">
-    主题 &mdash;
-    <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
-      NexT.Gemini
-    </a>
-  </div>
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v6.7.0</div>
+
+
 
 
         
 <div class="busuanzi-count">
-  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
   
 
   
-    <span class="site-pv">
-      <i class="fa fa-eye">本站总访问量</i>
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
       <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
-      次
     </span>
   
 </div>
@@ -689,7 +818,7 @@
 
 
 
-  <script type="text/javascript">
+  <script>
     (function() {
       var hm = document.createElement("script");
       hm.src = "//tajs.qq.com/stats?sId=63572801";
@@ -697,6 +826,7 @@
       s.parentNode.insertBefore(hm, s);
     })();
   </script>
+
 
 
 
@@ -712,11 +842,16 @@
       </div>
     
 
+    
+
+    
+
+    
   </div>
 
   
 
-<script type="text/javascript">
+<script>
   if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
     window.Promise = null;
   }
@@ -730,7 +865,6 @@
 
 
 
-  
 
 
 
@@ -738,94 +872,6 @@
 
 
 
-
-
-
-
-
-  
-  <script type="text/javascript" src="https://cdn.bootcss.com/jquery/2.1.3/jquery.min.js"></script>
-
-  
-  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-
-  
-  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-
-  
-  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
-
-  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
-
-
-
-  
-  
-
-
-  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
-
-  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
-
-
-
-  
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
-
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
-
-
-
-  
-
-
-  
-
-
-
-
-	
-
-
-
-
-
-  
-
-
-
-
-
-  
-    <script type="text/javascript">
-      (function(d, s) {
-        var j, e = d.getElementsByTagName(s)[0];
-        if (typeof LivereTower === 'function') { return; }
-        j = d.createElement(s);
-        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-        j.async = true;
-        e.parentNode.insertBefore(j, e);
-      })(document, 'script');
-    </script>
-  
 
 
 
@@ -837,119 +883,150 @@
 
 
   
+  <script src="https://cdn.bootcss.com/jquery/2.1.3/jquery.min.js"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=6.7.0"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=6.7.0"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  
+    <script>
+  window.livereOptions = {
+    refer: '2017/09/02/unix-shell/'
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+</script>
+
+  
+
+
+  
 
 
 
 
 
   
-
   
-  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
-  <script>AV.initialize("lJAncWvGmBTt9BhJelq3duIn-gzGzoHsz", "sWOplC3xydyM6mKBbhccsL2N");</script>
   <script>
-    function showTime(Counter) {
-      var query = new AV.Query(Counter);
-      var entries = [];
-      var $visitors = $(".leancloud_visitors");
-
-      $visitors.each(function () {
-        entries.push( $(this).attr("id").trim() );
-      });
-
-      query.containedIn('url', entries);
-      query.find()
-        .done(function (results) {
-          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
-
-          if (results.length === 0) {
-            $visitors.find(COUNT_CONTAINER_REF).text(0);
-            return;
-          }
-
-          for (var i = 0; i < results.length; i++) {
-            var item = results[i];
-            var url = item.get('url');
-            var time = item.get('time');
-            var element = document.getElementById(url);
-
-            $(element).find(COUNT_CONTAINER_REF).text(time);
-          }
-          for(var i = 0; i < entries.length; i++) {
-            var url = entries[i];
-            var element = document.getElementById(url);
-            var countSpan = $(element).find(COUNT_CONTAINER_REF);
-            if( countSpan.text() == '') {
-              countSpan.text(0);
-            }
-          }
-        })
-        .fail(function (object, error) {
-          console.log("Error: " + error.code + " " + error.message);
-        });
-    }
-
+    
     function addCount(Counter) {
-      var $visitors = $(".leancloud_visitors");
+      var $visitors = $('.leancloud_visitors');
       var url = $visitors.attr('id').trim();
       var title = $visitors.attr('data-flag-title').trim();
-      var query = new AV.Query(Counter);
 
-      query.equalTo("url", url);
-      query.find({
-        success: function(results) {
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function({ results }) {
           if (results.length > 0) {
             var counter = results[0];
-            counter.fetchWhenSave(true);
-            counter.increment("time");
-            counter.save(null, {
-              success: function(counter) {
+            
+            Counter('put', '/classes/Counter/' + counter.objectId, JSON.stringify({ time: { '__op': 'Increment', 'amount': 1 } }))
+            
+              .done(function() {
                 var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(counter.get('time'));
-              },
-              error: function(counter, error) {
-                console.log('Failed to save Visitor num, with error message: ' + error.message);
-              }
-            });
+                $element.find('.leancloud-visitors-count').text(counter.time + 1);
+              })
+            
+              .fail(function ({ responseJSON }) {
+                console.log(`Failed to save Visitor num, with error message: ${responseJSON.error}`);
+              })
           } else {
-            var newcounter = new Counter();
-            /* Set ACL */
-            var acl = new AV.ACL();
-            acl.setPublicReadAccess(true);
-            acl.setPublicWriteAccess(true);
-            newcounter.setACL(acl);
-            /* End Set ACL */
-            newcounter.set("title", title);
-            newcounter.set("url", url);
-            newcounter.set("time", 1);
-            newcounter.save(null, {
-              success: function(newcounter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
-              },
-              error: function(newcounter, error) {
-                console.log('Failed to create');
-              }
-            });
+            
+              var $element = $(document.getElementById(url));
+              $element.find('.leancloud-visitors-count').text('Counter not initialized! More info at console err msg.');
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
           }
-        },
-        error: function(error) {
-          console.log('Error:' + error.code + " " + error.message);
-        }
-      });
+        })
+        .fail(function ({ responseJSON }) {
+          console.log(`LeanCloud Counter Error: ${responseJSON.code} ${responseJSON.error}`);
+        });
     }
+    
 
     $(function() {
-      var Counter = AV.Object.extend("Counter");
-      if ($('.leancloud_visitors').length == 1) {
-        addCount(Counter);
-      } else if ($('.post-title-link').length > 1) {
-        showTime(Counter);
-      }
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + 'lJAncWvGmBTt9BhJelq3duIn-gzGzoHsz')
+        .done(function({ api_server }) {
+          var Counter = function(method, url, data) {
+            return $.ajax({
+              method: method,
+              url: 'https://' + api_server + '/1.1' + url,
+              headers: {
+                'X-LC-Id': 'lJAncWvGmBTt9BhJelq3duIn-gzGzoHsz',
+                'X-LC-Key': 'sWOplC3xydyM6mKBbhccsL2N',
+                'Content-Type': 'application/json',
+              },
+              data: data
+            });
+          };
+          
+            addCount(Counter);
+          
+        });
     });
   </script>
 
 
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
 
   
 
